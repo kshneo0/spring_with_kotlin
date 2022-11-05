@@ -1,0 +1,36 @@
+package com.fastcampus.userservice.model
+
+import com.fastcampus.userservice.domain.entity.User
+import java.time.LocalDateTime
+
+/**
+ * fileName : UserModel
+ * author :  KimSangHoon
+ * date : 2022/11/05
+ */
+
+data class UserEditRequest(
+    val username: String,
+)
+
+data class MeResponse(
+    val id: Long,
+    val profileUrl: String?,
+    val username: String,
+    val email: String,
+    val createdAt: LocalDateTime?,
+    val updatedAt: LocalDateTime?,
+) {
+    companion object {
+        operator fun invoke(user: User) = with(user) {
+            MeResponse(
+                id = id!!,
+                profileUrl = if (profileUrl.isNullOrEmpty()) null else "http://localhost:9090/images/$profileUrl",
+                username = username,
+                email = email,
+                createdAt = createdAt,
+                updatedAt = updatedAt,
+            )
+        }
+    }
+}
